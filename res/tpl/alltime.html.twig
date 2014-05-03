@@ -1,0 +1,209 @@
+{% extends 'struct.html.twig' %}
+
+{% set path = '' %}
+{% set activePage = 'alltime' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                Alltime Stats
+                <span class="pull-right">
+                    <small>
+                        <span class="glyphicon glyphicon-facetime-video"></span>
+                        {{ seasons|length }} Seasons
+                        - {{ stats.allEpisodesCount }} Episodes
+                    </small>
+                </span>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Points</h3>
+                </div>
+                <div class="panel-body single-value">
+                    {{ stats.alltimePoints|number_format }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">&Oslash; Points Per Episode</h3>
+                </div>
+                <div class="panel-body single-value">
+                    {{ stats.alltimeAvgPointsPerEpisode|number_format }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Games</h3>
+                </div>
+                <div class="panel-body single-value">
+                    <span data-toggle="tooltip" title="Unique Games">
+                        {{ stats.allSeasonsGameCounts.grouped }}
+                    </span>/
+                    <span data-toggle="tooltip" title="Games Played">{{ stats.allSeasonsGameCounts.total }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-default panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">&Oslash; Games Per Episode</h3>
+                </div>
+                <div class="panel-body single-value">
+                    {{ stats.alltimeAvgGamesPerEpisode|number_format(2) }}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <script>
+                var allSeasonsPointsRankingJson = {{ stats.allSeasonsPointsRankingJson|raw }},
+                        alltimeParticipantRankingJson = {{ stats.alltimeParticipantRankingJson|raw }},
+                        allSeasonsGameRankingJson = {{ stats.allSeasonsGameRankingJson|raw }};
+            </script>
+            <div class="panel panel-default panel-table panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Points Share</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="chart-allSeasonsPointsRankingJson" style="height: 220px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default panel-table panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Participation Share</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="chart-alltimeParticipantRankingJson" style="height: 220px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default panel-table panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Games Share</h3>
+                </div>
+                <div class="panel-body">
+                    <div id="chart-allSeasonsGameRankingJson" style="height: 220px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default panel-table panel-wliia tbl-shortener">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Points Ranking</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Points</th>
+                            <th>Player</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for rank in stats.allSeasonsPointsRanking %}
+                            <tr>
+                                <td class="text-center">{{ loop.index }}</td>
+                                <td class="bold">{{ rank.points|number_format }}</td>
+                                <td>{{ rank.participant.name }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default panel-table panel-wliia tbl-shortener">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Winner Ranking</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Points</th>
+                            <th>Player</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for name, wins in stats.allSeasonsWinnerRanking %}
+                            <tr>
+                                <td class="text-center">{{ loop.index }}</td>
+                                <td class="bold">{{ name }}</td>
+                                <td>{{ wins }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default panel-table panel-wliia tbl-shortener">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Game Ranking</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Played</th>
+                            <th>Game</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for game, plays in stats.allSeasonsGameRanking %}
+                            <tr>
+                                <td class="text-center">{{ loop.index }}</td>
+                                <td class="bold">{{ plays }}x</td>
+                                <td>{{ game }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-default panel-table panel-wliia tbl-shortener">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Participant Ranking</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Participated</th>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for name, ptcpd in stats.alltimeParticipantRanking %}
+                            <tr>
+                                <td class="text-center">{{ loop.index }}</td>
+                                <td class="bold">{{ ptcpd }}x</td>
+                                <td>{{ name }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

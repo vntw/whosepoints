@@ -1,0 +1,105 @@
+{% extends 'struct.html.twig' %}
+
+{% set path = '../' %}
+{% set activePage = 'episode' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                Episode {{ episode.id }}
+                <span class="pull-right">
+                    <small>
+                        <span class="glyphicon glyphicon-facetime-video"></span>
+                        Season {{ season.prettyId }} -
+                        {{ episode.games|length }} Games
+                        - {{ episode.points|number_format }} Points
+                    </small>
+                </span>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default panel-table panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Points Ranking</h3>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th class="text-center">#</th>
+                            <th>Points</th>
+                            <th>Player</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for rank in stats.singleEpisodePointsRanking[episode.id] %}
+                            <tr>
+                                <td class="text-center">{{ loop.index }}</td>
+                                <td class="bold">{{ rank.points|number_format }}</td>
+                                <td>{{ rank.participant.name }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default panel-wliia">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Winners</h3>
+                </div>
+                <div class="panel-body">
+                    <ul>
+                        {% if episode.winners|length > 0 %}
+                            {% for winner in episode.winners %}
+                                <li>{{ winner.name }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <li>-</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+            {% if episode.points > 0 %}
+                <script>
+                    var singleEpisodePointsRankingJson = {{ stats.singleEpisodePointsRankingJson[episode.id]|raw }};
+                </script>
+                <div class="panel panel-default panel-wliia panel-chart">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Points Share</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="chart-singleEpisodePointsRankingJson" style="height: 220px;"></div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Games ({{ episode.games|length }})</h2>
+        </div>
+        {% for game in episode.games %}
+            <div class="col-md-4">
+                <div class="panel panel-default panel-wliia">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{ game.name }}
+                        </h3>
+                    </div>
+                    <div class="panel-body games">
+                        <ul>
+                            {% for ptcpp in game.participantPoints %}
+                                <li>{{ ptcpp.participant.name }}: {{ ptcpp.points|number_format }} Points</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

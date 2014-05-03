@@ -1,0 +1,38 @@
+{% extends 'struct.html.twig' %}
+
+{% set path = '' %}
+{% set activePage = 'kisses' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Kisses</h1>
+        </div>
+    </div>
+    <div class="row">
+        {% for epKisses in kisses %}
+            <div class="col-md-4">
+                <div class="panel panel-default panel-wliia">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            {{ epKisses.episode.id }}
+
+                            <div class="pull-right">
+                                <a href="{{ path }}episodes/{{ epKisses.episode.id }}.html" class="btn btn-pink btn-xs">
+                                    <span class="glyphicon glyphicon-stats"></span> Details
+                                </a>
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="panel-body kisses">
+                        <ul>
+                            {% for ptcpt in epKisses.participants %}
+                                <li>{{ ptcpt[0].name }} <span class="glyphicon glyphicon-heart-empty"></span> {{ ptcpt[1].name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
