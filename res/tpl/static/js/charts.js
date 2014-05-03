@@ -15,7 +15,7 @@ Highcharts.getOptions().plotOptions.pie.colors = (function () {
 if (typeof allSeasonsPointsRankingJson != 'undefined') {
     $('#chart-allSeasonsPointsRankingJson').highcharts({
         chart: {
-            backgroundColor: 'transparent'
+            backgroundColor: '#ffffff'
         },
         title: {
             text: null
@@ -56,7 +56,7 @@ if (typeof allSeasonsPointsRankingJson != 'undefined') {
 if (typeof alltimeParticipantRankingJson != 'undefined') {
     $('#chart-alltimeParticipantRankingJson').highcharts({
         chart: {
-            backgroundColor: 'transparent'
+            backgroundColor: '#ffffff'
         },
         title: {
             text: null
@@ -97,7 +97,7 @@ if (typeof alltimeParticipantRankingJson != 'undefined') {
 if (typeof allSeasonsGameRankingJson != 'undefined') {
     $('#chart-allSeasonsGameRankingJson').highcharts({
         chart: {
-            backgroundColor: 'transparent'
+            backgroundColor: '#ffffff'
         },
         title: {
             text: null
@@ -139,7 +139,7 @@ if (typeof allSeasonsGameRankingJson != 'undefined') {
 if (typeof singleEpisodePointsRankingJson != 'undefined') {
     $('#chart-singleEpisodePointsRankingJson').highcharts({
         chart: {
-            backgroundColor: 'transparent'
+            backgroundColor: '#ffffff'
         },
         title: {
             text: null
