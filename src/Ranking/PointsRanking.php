@@ -11,6 +11,9 @@ abstract class PointsRanking
      */
     protected $pointHolders;
 
+    /**
+     * @param PointsHolderInterface[] $pointHolders
+     */
     public function __construct(array $pointHolders)
     {
         $this->pointHolders = $pointHolders;

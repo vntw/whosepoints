@@ -20,12 +20,18 @@ class StatsGenerator
      */
     private $seasons;
 
+    /**
+     * @param Season[] $seasons
+     */
     public function __construct(array $seasons)
     {
         $this->stats = array();
         $this->seasons = $seasons;
     }
 
+    /**
+     * @return array
+     */
     public function getStats()
     {
         return $this->stats;
@@ -384,10 +390,5 @@ class StatsGenerator
             $json[] = array($name, $played);
         }
         $this->stats['allSeasonsGameRankingJson'] = json_encode($json);
-    }
-
-    private function sgenParticipantGameMatrix()
-    {
-
     }
 }

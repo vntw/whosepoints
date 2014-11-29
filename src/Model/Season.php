@@ -7,6 +7,9 @@ class Season
     private $id;
     private $episodes;
 
+    /**
+     * @param int $id
+     */
     public function __construct($id)
     {
         $this->id = $id;
@@ -21,11 +24,18 @@ class Season
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getPrettyId()
     {
-        return $this->id < 10 ? '0'.$this->id : $this->id;
+        return str_pad($this->id, 2, '0', STR_PAD_LEFT);
     }
 
+    /**
+     * @param Episode $episode
+     * @throws \InvalidArgumentException
+     */
     public function appendEpisode(Episode $episode)
     {
         if (isset($this->episodes[$episode->getId()])) {
@@ -43,11 +53,14 @@ class Season
         return $this->episodes;
     }
 
+    /**
+     * @return int
+     */
     public function getPoints()
     {
         $p = 0;
-        foreach ($this->episodes as $e) {
-            $p += $e->getPoints();
+        foreach ($this->episodes as $episode) {
+            $p += $episode->getPoints();
         }
 
         return $p;

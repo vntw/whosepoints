@@ -2,29 +2,32 @@
 
 namespace Venyii\WhosePoints\Ranking;
 
+use Venyii\WhosePoints\Model\Participant;
 use Venyii\WhosePoints\Model\ParticipantPoints;
 
 class ParticipantPointsRanking extends PointsRanking
 {
     public function group()
     {
-        $pp = array();
+        $pointHolders = array();
 
         foreach ($this->pointHolders as $participantPoint) {
             /* @var $participantPoint ParticipantPoints */
-            if (isset($pp[$participantPoint->getParticipant()->getId()])) {
-                $papo = $pp[$participantPoint->getParticipant()->getId()];
 
-                $oldPoints = $papo->getPoints();
-                $newPoints = $participantPoint->getPoints();
+            $participant = $participantPoint->getParticipant();
+            /* @var $participant Participant */
 
-                $papo->setPoints($oldPoints + $newPoints);
+            if (isset($pointHolders[$participant->getId()])) {
+                $participantPoints = $pointHolders[$participant->getId()];
+                /* @var $participantPoints ParticipantPoints */
+                $participantPoints->setPoints($participantPoints->getPoints() + $participantPoint->getPoints());
+
                 continue;
             }
 
-            $pp[$participantPoint->getParticipant()->getId()] = clone $participantPoint;
+            $pointHolders[$participant->getId()] = clone $participantPoint;
         }
 
-        return array_values($pp);
+        return array_values($pointHolders);
     }
 }
