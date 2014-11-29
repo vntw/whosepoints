@@ -9,21 +9,31 @@ class Game implements PointsHolderInterface
     private $name;
     private $participantPoints;
 
+    /**
+     * @param string $name
+     */
     public function __construct($name)
     {
         $this->name = $name;
         $this->participantPoints = array();
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param ParticipantPoints $participantPoints
+     * @throws \InvalidArgumentException
+     */
     public function appendParticipantPoints(ParticipantPoints $participantPoints)
     {
         if (isset($this->participantPoints[$participantPoints->getParticipant()->getName()])) {
-            throw new \InvalidArgumentException('dbl ptcp');
+            throw new \InvalidArgumentException('Participant has already been added.');
         }
 
         $this->participantPoints[$participantPoints->getParticipant()->getName()] = $participantPoints;
@@ -37,6 +47,9 @@ class Game implements PointsHolderInterface
         return $this->participantPoints;
     }
 
+    /**
+     * @return double
+     */
     public function getPoints()
     {
         $p = 0;

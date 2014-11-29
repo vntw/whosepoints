@@ -130,30 +130,9 @@ class CsvPointsParser
 
     private function readGameParticipants()
     {
-        $m = array(
-            'Ryan Stiles',
-            'Colin Mochrie',
-            'Wayne Brady',
-            'Greg Proops',
-            'Brad Sherwood'.
-            'Chip Esten',
-            'Kathy Greenwood',
-            'Denny Siegel',
-            'Jeff Davis',
-            'Karen Maruyama',
-            'Josie Lawrence',
-            'Kathy Griffin',
-            'Patrick Bristow',
-            'Robin Williams',
-            'Whoopi Goldberg',
-            'Kathy Kinney',
-            'Stephen Colbert',
-            'Ia Gomez'
-        );
-
         $game = new Game($this->currentData[2]);
         $realParticipants = '' !== $this->currentData[3] ? explode(',', $this->currentData[3]) : array();
-        $hasRP = !empty($realParticipants);
+        $hasRealParticipants = !empty($realParticipants);
 
         foreach ($this->participants as $participant) {
             if (in_array($this->currentData[$participant->getId()], $this->excludePointValues)) {
@@ -162,12 +141,9 @@ class CsvPointsParser
 
             $participated = true;
 
-            if ($hasRP && !in_array($participant->getAlias(), $realParticipants, true)) {
+            if ($hasRealParticipants && !in_array($participant->getAlias(), $realParticipants, true)) {
                 $participated = false;
             }
-//            if (!in_array($participant->getName(), $m, true)) {
-//                $participated = false;
-//            }
 
             $points = $this->pointsFormatter->parse($this->currentData[$participant->getId()]);
             $game->appendParticipantPoints(new ParticipantPoints($participant, $points, $participated));

@@ -136,7 +136,7 @@
                         <thead>
                         <tr>
                             <th class="text-center">#</th>
-                            <th>Points</th>
+                            <th>Wins</th>
                             <th>Player</th>
                         </tr>
                         </thead>
@@ -144,8 +144,8 @@
                         {% for name, wins in stats.allSeasonsWinnerRanking %}
                             <tr>
                                 <td class="text-center">{{ loop.index }}</td>
-                                <td class="bold">{{ name }}</td>
-                                <td>{{ wins }}</td>
+                                <td class="bold">{{ wins }}x</td>
+                                <td>{{ name }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

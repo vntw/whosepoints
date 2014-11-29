@@ -2,13 +2,15 @@
 
 namespace Venyii\WhosePoints\Model;
 
-// TODO episode participants
 class Episode
 {
     private $id;
     private $games;
     private $winners;
 
+    /**
+     * @param int $id
+     */
     public function __construct($id)
     {
         $this->id = $id;
@@ -16,15 +18,22 @@ class Episode
         $this->winners = array();
     }
 
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @param Game $game
+     * @throws \InvalidArgumentException
+     */
     public function appendGame(Game $game)
     {
         if (isset($this->games[$game->getName()])) {
-            throw new \InvalidArgumentException('dbl game');
+            throw new \InvalidArgumentException('The game has already been added.');
         }
 
         $this->games[$game->getName()] = $game;
@@ -54,6 +63,9 @@ class Episode
         return $this->winners;
     }
 
+    /**
+     * @return double
+     */
     public function getPoints()
     {
         $p = 0;

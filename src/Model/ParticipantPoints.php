@@ -8,6 +8,7 @@ class ParticipantPoints implements PointsHolderInterface
 {
     private $participant;
     private $points;
+
     /**
      * Has received points, but did not participate in the game
      *
@@ -15,6 +16,11 @@ class ParticipantPoints implements PointsHolderInterface
      */
     private $participated;
 
+    /**
+     * @param Participant $participant
+     * @param double $points
+     * @param bool $participated
+     */
     public function __construct(Participant $participant, $points, $participated = true)
     {
         $this->participant = $participant;
@@ -31,7 +37,7 @@ class ParticipantPoints implements PointsHolderInterface
     }
 
     /**
-     * @param double|null $points
+     * @param double $points
      */
     public function setPoints($points)
     {
@@ -39,13 +45,16 @@ class ParticipantPoints implements PointsHolderInterface
     }
 
     /**
-     * @return double|null
+     * @return double
      */
     public function getPoints()
     {
         return $this->points;
     }
 
+    /**
+     * @return bool
+     */
     public function hasParticipated()
     {
         return $this->participated;
