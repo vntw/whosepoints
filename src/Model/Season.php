@@ -17,7 +17,7 @@ class Season
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -54,7 +54,7 @@ class Season
     }
 
     /**
-     * @return int
+     * @return double
      */
     public function getPoints()
     {

@@ -2,10 +2,6 @@
 
 namespace Venyii\WhosePoints\Parser;
 
-use Venyii\WhosePoints\Model\Season;
-use Venyii\WhosePoints\Model\Episode;
-use Venyii\WhosePoints\Model\Participant;
-
 class CsvKissesParser
 {
     private $csv;
