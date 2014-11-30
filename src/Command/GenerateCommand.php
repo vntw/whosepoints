@@ -26,9 +26,9 @@ class GenerateCommand extends Command
     {
         $outDir = $input->getOption('outdir');
 
-        $generator=new LocalStaticGenerator($outDir);
+        $generator = new LocalStaticGenerator($outDir);
         $generator->generate()->write();
 
-        $output->writeln('write to: '.$outDir);
+        $output->writeln('Written to: '.$outDir);
     }
 }
