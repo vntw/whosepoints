@@ -13,7 +13,7 @@ class Season
     public function __construct($id)
     {
         $this->id = $id;
-        $this->episodes = array();
+        $this->episodes = [];
     }
 
     /**

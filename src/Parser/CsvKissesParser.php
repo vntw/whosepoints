@@ -13,7 +13,7 @@ class CsvKissesParser
     public function __construct(\SplFileInfo $csv, array $seasons, array $participants)
     {
         $this->csv = $csv;
-        $this->kisses = array();
+        $this->kisses = [];
         $this->seasons = $seasons;
 
         if (empty($participants)) {
@@ -45,17 +45,17 @@ class CsvKissesParser
                 $currentEpisode = $this->currentData[0];
                 $episode = $this->findEpisode($currentEpisode);
 
-                $this->kisses[$currentEpisode] = array(
+                $this->kisses[$currentEpisode] = [
                     'episode' => $episode,
-                    'participants' => array()
-                );
+                    'participants' => []
+                ];
             }
 
             if (!$episode) {
                 throw new \Exception();
             }
 
-            $kissPtcpts = array();
+            $kissPtcpts = [];
             $ptcpts = explode('+', $this->currentData[1]);
 
             foreach ($ptcpts as $ptcpt) {

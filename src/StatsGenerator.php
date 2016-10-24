@@ -25,36 +25,50 @@ class StatsGenerator
      */
     public function __construct(array $seasons)
     {
-        $this->stats = array();
         $this->seasons = $seasons;
     }
 
     /**
      * @return array
      */
-    public function getStats()
+    public function generateStats()
     {
+        if ($this->stats !== null) {
+            return $this->stats;
+        }
+
+        $this->stats = [];
+
+        $this->calcAllEpisodesCount();
+        $this->calcAllSeasonsPoints();
+        $this->calcSingleSeasonPointsRanking();
+        $this->calcSingleEpisodePointsRanking();
+        $this->calcAllSeasonsPointsRanking();
+        $this->calcSingleSeasonGameRanking();
+        $this->calcAllSeasonsGameRanking();
+        $this->calcSingleSeasonGameCounts();
+        $this->calcAllSeasonsGameCounts();
+        $this->calcSingleSeasonParticipantRanking();
+        $this->calcAlltimeParticipantRanking();
+        $this->calcSingleSeasonWinnerRanking();
+        $this->calcAllSeasonsWinnerRanking();
+        $this->calcAlltimePoints();
+        $this->calcSingleSeasonAvgGamesPerEpisode();
+        $this->calcAlltimeAvgGamesPerEpisode();
+        $this->calcSingleSeasonAvgPointsPerEpisode();
+        $this->calcAlltimeAvgPointsPerEpisode();
+        $this->calcAllSeasonsPointsRankingJson();
+        $this->calcSingleSeasonsPointsRankingJson();
+        $this->calcSingleSeasonParticipantRankingJson();
+        $this->calcAllSeasonsParticipantRankingJson();
+        $this->calcSingleEpisodePointsRankingJson();
+        $this->calcSingleSeasonGameRankingJson();
+        $this->calcAllSeasonsGameRankingJson();
+
         return $this->stats;
     }
 
-    /**
-     * @return $this
-     */
-    public function generate()
-    {
-        $refl = new \ReflectionClass($this);
-
-        foreach ($refl->getMethods(\ReflectionMethod::IS_PRIVATE) as $method) {
-            if (0 === strpos($method->getName(), 'sgen')) {
-                $method->setAccessible(true);
-                $method->invoke($this);
-            }
-        }
-
-        return $this;
-    }
-
-    private function sgenAllEpisodesCount()
+    private function calcAllEpisodesCount()
     {
         $eps = 0;
 
@@ -65,17 +79,17 @@ class StatsGenerator
         $this->stats['allEpisodesCount'] = $eps;
     }
 
-    private function sgenAllSeasonsPoints()
+    private function calcAllSeasonsPoints()
     {
         foreach ($this->seasons as $season) {
             $this->stats['allSeasonPoints'][$season->getId()] = $season->getPoints();
         }
     }
 
-    private function sgenSingleSeasonPointsRanking()
+    private function calcSingleSeasonPointsRanking()
     {
         foreach ($this->seasons as $season) {
-            $pp = array();
+            $pp = [];
             foreach ($season->getEpisodes() as $episode) {
                 foreach ($episode->getGames() as $game) {
                     $pp = array_merge($pp, array_values($game->getParticipantPoints()));
@@ -87,11 +101,11 @@ class StatsGenerator
         }
     }
 
-    private function sgenSingleEpisodePointsRanking()
+    private function calcSingleEpisodePointsRanking()
     {
         foreach ($this->seasons as $season) {
             foreach ($season->getEpisodes() as $episode) {
-                $pp = array();
+                $pp = [];
                 foreach ($episode->getGames() as $game) {
                     $pp = array_merge($pp, array_values($game->getParticipantPoints()));
                 }
@@ -101,9 +115,9 @@ class StatsGenerator
         }
     }
 
-    private function sgenAllSeasonsPointsRanking()
+    private function calcAllSeasonsPointsRanking()
     {
-        $pp = array();
+        $pp = [];
 
         foreach ($this->stats['singleSeasonPointsRanking'] as $k => $sr) {
             $pp = array_merge($pp, array_values($sr));
@@ -113,10 +127,10 @@ class StatsGenerator
         $this->stats['allSeasonsPointsRanking'] = $r->rank();
     }
 
-    private function sgenSingleSeasonGameRanking()
+    private function calcSingleSeasonGameRanking()
     {
         foreach ($this->seasons as $season) {
-            $games = array();
+            $games = [];
             foreach ($season->getEpisodes() as $episode) {
                 foreach ($episode->getGames() as $game) {
                     if (!isset($games[$game->getName()])) {
@@ -133,9 +147,9 @@ class StatsGenerator
         }
     }
 
-    private function sgenAllSeasonsGameRanking()
+    private function calcAllSeasonsGameRanking()
     {
-        $games = array();
+        $games = [];
 
         foreach ($this->stats['singleSeasonGameRanking'] as $sgames) {
             foreach ($sgames as $game => $plays) {
@@ -152,28 +166,28 @@ class StatsGenerator
         $this->stats['allSeasonsGameRanking'] = $r->rank();
     }
 
-    private function sgenSingleSeasonGameCounts()
+    private function calcSingleSeasonGameCounts()
     {
         foreach ($this->stats['singleSeasonGameRanking'] as $sid => $sgames) {
-            $this->stats['singleSeasonGameCounts'][$sid] = array(
+            $this->stats['singleSeasonGameCounts'][$sid] = [
                 'grouped' => count($sgames),
                 'total' => array_sum($sgames)
-            );
+            ];
         }
     }
 
-    private function sgenAllSeasonsGameCounts()
+    private function calcAllSeasonsGameCounts()
     {
-        $this->stats['allSeasonsGameCounts'] = array(
+        $this->stats['allSeasonsGameCounts'] = [
             'grouped' => count($this->stats['allSeasonsGameRanking']),
             'total' => array_sum($this->stats['allSeasonsGameRanking'])
-        );
+        ];
     }
 
-    private function sgenSingleSeasonParticipantRanking()
+    private function calcSingleSeasonParticipantRanking()
     {
         foreach ($this->seasons as $season) {
-            $ptcpts = array();
+            $ptcpts = [];
 
             foreach ($season->getEpisodes() as $episode) {
                 foreach ($episode->getGames() as $game) {
@@ -197,9 +211,9 @@ class StatsGenerator
         }
     }
 
-    private function sgenAlltimeParticipantRanking()
+    private function calcAlltimeParticipantRanking()
     {
-        $ptcpts = array();
+        $ptcpts = [];
         foreach ($this->stats['singleSeasonParticipantRanking'] as $sid => $ptcptss) {
             foreach ($ptcptss as $name => $ptcpd) {
                 if (!isset($ptcpts[$name])) {
@@ -215,10 +229,10 @@ class StatsGenerator
         $this->stats['alltimeParticipantRanking'] = $r->rank();
     }
 
-    private function sgenSingleSeasonWinnerRanking()
+    private function calcSingleSeasonWinnerRanking()
     {
         foreach ($this->seasons as $season) {
-            $winners = array();
+            $winners = [];
             foreach ($season->getEpisodes() as $episode) {
                 foreach ($episode->getWinners() as $participant) {
                     if (!isset($winners[$participant->getName()])) {
@@ -234,9 +248,9 @@ class StatsGenerator
         }
     }
 
-    private function sgenAllSeasonsWinnerRanking()
+    private function calcAllSeasonsWinnerRanking()
     {
-        $winners = array();
+        $winners = [];
         foreach ($this->stats['singleSeasonWinnerRanking'] as $sid => $wnnrs) {
             foreach ($wnnrs as $name => $wins) {
                 if (!isset($winners[$name])) {
@@ -252,7 +266,7 @@ class StatsGenerator
         $this->stats['allSeasonsWinnerRanking'] = $r->rank();
     }
 
-    private function sgenAlltimePoints()
+    private function calcAlltimePoints()
     {
         $p = 0;
 
@@ -263,14 +277,14 @@ class StatsGenerator
         $this->stats['alltimePoints'] = $p;
     }
 
-    private function sgenSingleSeasonAvgGamesPerEpisode()
+    private function calcSingleSeasonAvgGamesPerEpisode()
     {
         foreach ($this->seasons as $season) {
             $this->stats['singleSeasonAvgGamesPerEpisode'][$season->getId()] = $this->stats['singleSeasonGameCounts'][$season->getId()]['total'] / count($season->getEpisodes());
         }
     }
 
-    private function sgenAlltimeAvgGamesPerEpisode()
+    private function calcAlltimeAvgGamesPerEpisode()
     {
         $episodes = 0;
         foreach ($this->seasons as $season) {
@@ -280,57 +294,49 @@ class StatsGenerator
         $this->stats['alltimeAvgGamesPerEpisode'] = array_sum($this->stats['allSeasonsGameRanking']) / $this->stats['allEpisodesCount'];
     }
 
-    private function sgenSingleSeasonAvgPointsPerEpisode()
+    private function calcSingleSeasonAvgPointsPerEpisode()
     {
         foreach ($this->seasons as $season) {
             $this->stats['singleSeasonAvgPointsPerEpisode'][$season->getId()] = $season->getPoints() / count($season->getEpisodes());
         }
     }
 
-    private function sgenAlltimeAvgPointsPerEpisode()
+    private function calcAlltimeAvgPointsPerEpisode()
     {
         $this->stats['alltimeAvgPointsPerEpisode'] = $this->stats['alltimePoints'] / $this->stats['allEpisodesCount'];
     }
 
-    private function sgenAllSeasonsPointsRankingJson()
+    private function calcAllSeasonsPointsRankingJson()
     {
-        $json = array();
-        $others = array('Others', 0);
+        $json = [];
+        $others = ['Others', 0];
         foreach ($this->stats['allSeasonsPointsRanking'] as $ptcp) {
-            if (!$ptcp->hasParticipated()) {
-//                continue;
-            }
-
             if ($ptcp->getPoints() <= self::MIN_LIMIT) {
                 $others[1] += $ptcp->getPoints();
             } else {
-                $json[] = array(
+                $json[] = [
                     $ptcp->getParticipant()->getName(),
                     $ptcp->getPoints()
-                );
+                ];
             }
         }
         $json[] = $others;
         $this->stats['allSeasonsPointsRankingJson'] = json_encode($json);
     }
 
-    private function sgenSingleSeasonsPointsRankingJson()
+    private function calcSingleSeasonsPointsRankingJson()
     {
         foreach ($this->stats['singleSeasonPointsRanking'] as $sid => $ptcps) {
-            $json = array();
-            $others = array('Others', 0);
+            $json = [];
+            $others = ['Others', 0];
             foreach ($ptcps as $ptcp) {
-                if (!$ptcp->hasParticipated()) {
-//                continue;
-                }
-
                 if ($ptcp->getPoints() <= self::MIN_LIMIT) {
                     $others[1] += $ptcp->getPoints();
                 } else {
-                    $json[] = array(
+                    $json[] = [
                         $ptcp->getParticipant()->getName(),
                         $ptcp->getPoints()
-                    );
+                    ];
                 }
             }
             $json[] = $others;
@@ -338,56 +344,56 @@ class StatsGenerator
         }
     }
 
-    private function sgenSingleSeasonParticipantRankingJson()
+    private function calcSingleSeasonParticipantRankingJson()
     {
         foreach ($this->stats['singleSeasonParticipantRanking'] as $sid => $ptcps) {
-            $json = array();
+            $json = [];
             foreach ($ptcps as $name => $ptcpd) {
-                $json[] = array($name, $ptcpd);
+                $json[] = [$name, $ptcpd];
             }
             $this->stats['singleSeasonParticipantRankingJson'][$sid] = json_encode($json);
         }
     }
 
-    private function sgenAllSeasonsParticipantRankingJson()
+    private function calcAllSeasonsParticipantRankingJson()
     {
-        $json = array();
+        $json = [];
         foreach ($this->stats['alltimeParticipantRanking'] as $name => $ptcpd) {
-            $json[] = array($name, $ptcpd);
+            $json[] = [$name, $ptcpd];
         }
         $this->stats['alltimeParticipantRankingJson'] = json_encode($json);
     }
 
-    private function sgenSingleEpisodePointsRankingJson()
+    private function calcSingleEpisodePointsRankingJson()
     {
         foreach ($this->stats['singleEpisodePointsRanking'] as $episodeId => $participants) {
-            $json = array();
+            $json = [];
             foreach ($participants as $participant) {
                 if ($participant->getPoints() <= 0) {
                     continue;
                 }
-                $json[] = array($participant->getParticipant()->getName(), $participant->getPoints());
+                $json[] = [$participant->getParticipant()->getName(), $participant->getPoints()];
             }
             $this->stats['singleEpisodePointsRankingJson'][$episodeId] = json_encode($json);
         }
     }
 
-    private function sgenSingleSeasonGameRankingJson()
+    private function calcSingleSeasonGameRankingJson()
     {
         foreach ($this->stats['singleSeasonGameRanking'] as $sid => $games) {
-            $json = array();
+            $json = [];
             foreach ($games as $game => $played) {
-                $json[] = array($game, $played);
+                $json[] = [$game, $played];
             }
             $this->stats['singleSeasonGameRankingJson'][$sid] = json_encode($json);
         }
     }
 
-    private function sgenAllSeasonsGameRankingJson()
+    private function calcAllSeasonsGameRankingJson()
     {
-        $json = array();
+        $json = [];
         foreach ($this->stats['allSeasonsGameRanking'] as $name => $played) {
-            $json[] = array($name, $played);
+            $json[] = [$name, $played];
         }
         $this->stats['allSeasonsGameRankingJson'] = json_encode($json);
     }

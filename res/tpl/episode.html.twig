@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-default panel-table panel-wliia">
+            <div class="panel panel-default panel-table panel-wpata">
                 <div class="panel-heading">
                     <h3 class="panel-title">Points Ranking</h3>
                 </div>
@@ -48,7 +48,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-default panel-wliia">
+            <div class="panel panel-default panel-wpata">
                 <div class="panel-heading">
                     <h3 class="panel-title">Winners</h3>
                 </div>
@@ -68,7 +68,7 @@
                 <script>
                     var singleEpisodePointsRankingJson = {{ stats.singleEpisodePointsRankingJson[episode.id]|raw }};
                 </script>
-                <div class="panel panel-default panel-wliia panel-chart">
+                <div class="panel panel-default panel-wpata panel-chart">
                     <div class="panel-heading">
                         <h3 class="panel-title">Points Share</h3>
                     </div>
@@ -85,7 +85,7 @@
         </div>
         {% for game in episode.games %}
             <div class="col-md-4">
-                <div class="panel panel-default panel-wliia">
+                <div class="panel panel-default panel-wpata">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             {{ game.name }}
