@@ -89,11 +89,11 @@ footer a {
     background-color: #fff;
 }
 
-.panel-wliia {
+.panel-wpata {
     box-shadow: 1px 1px 2px 0px rgba(211, 211, 211, 0.5);
 }
 
-.panel-wliia .panel-heading {
+.panel-wpata .panel-heading {
     color: #fff;
     font-weight: bold;
     background: #e266ff;
@@ -105,11 +105,11 @@ footer a {
     background: linear-gradient(to bottom, #e266ff 0%, #dd47ff 100%);
 }
 
-.panel-wliia .panel-heading {
+.panel-wpata .panel-heading {
     padding-right: 10px;
 }
 
-.panel-wliia .panel-title .btn-pink {
+.panel-wpata .panel-title .btn-pink {
     margin-top: -2px;
 }
 
@@ -118,7 +118,7 @@ footer a {
     overflow-y: hidden;
 }
 
-.panel-wliia .panel-body ul {
+.panel-wpata .panel-body ul {
     margin-bottom: 0;
 }
 
@@ -130,7 +130,7 @@ footer a {
     height: 90px;
 }
 
-.panel-wliia .panel-body ul {
+.panel-wpata .panel-body ul {
     list-style-type: square;
 }
 
@@ -161,11 +161,11 @@ footer a {
     border-top: 0;
 }
 
-.panel-wliia.tbl-shortener .panel-footer {
+.panel-wpata.tbl-shortener .panel-footer {
     padding: 0;
 }
 
-.panel-wliia.tbl-shortener .panel-footer a {
+.panel-wpata.tbl-shortener .panel-footer a {
     padding: 10px 15px;
     display: block;
     color: #757575;

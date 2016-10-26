@@ -37,22 +37,9 @@ class LocalStaticGenerator
 
         $stats = new StatsGenerator($seasons);
         $renderer = new LocalHtmlRenderer($twig);
-        $this->tpls = $renderer->render($stats->generate()->getStats(), $seasons, $kisses);
+        $this->tpls = $renderer->render($stats->generateStats(), $seasons, $kisses);
 
         return $this;
-    }
-
-    private function createTwig()
-    {
-        $loader = new \Twig_Loader_Filesystem(__DIR__.'/../res/tpl');
-        $twig = new \Twig_Environment(
-            $loader, array(
-                'debug' => true,
-                'strict_variables' => true
-            )
-        );
-
-        return $twig;
     }
 
     public function write()
@@ -63,10 +50,7 @@ class LocalStaticGenerator
         foreach ($this->tpls as $typeName => $type) {
             if (is_array($type)) {
                 foreach ($type as $id => $typ) {
-                    $this->fs->dumpFile(
-                        $this->destDir.$typeName.'/'.$id.'.html',
-                        $typ
-                    );
+                    $this->fs->dumpFile($this->destDir.$typeName.'/'.$id.'.html', $typ);
                 }
             } else {
                 $this->fs->dumpFile($this->destDir.$typeName.'.html', $type);
@@ -74,6 +58,17 @@ class LocalStaticGenerator
         }
 
         $this->minifyStatics();
+    }
+
+    private function createTwig()
+    {
+        $loader = new \Twig_Loader_Filesystem(__DIR__.'/../res/tpl');
+        $twig = new \Twig_Environment($loader, [
+            'debug' => true,
+            'strict_variables' => true
+        ]);
+
+        return $twig;
     }
 
     private function cleanupOutDir()
@@ -113,19 +108,16 @@ class LocalStaticGenerator
         $jsFilter = new JsCompressorFilter($yuiPath);
         $cssFilter = new CssCompressorFilter($yuiPath);
 
-        $jsAssets = new GlobAsset(
-            array(
-                $this->srcDir.'static/js/vendor/jquery-2.1.0.js',
-                $this->srcDir.'static/js/vendor/*.js',
-                $this->srcDir.'static/js/*.js'
-            ), array($jsFilter)
-        );
-        $cssAssets = new GlobAsset(
-            array(
+        $jsAssets = new GlobAsset([
+            $this->srcDir.'static/js/vendor/jquery-2.1.0.js',
+            $this->srcDir.'static/js/vendor/*.js',
+            $this->srcDir.'static/js/*.js'
+        ], [$jsFilter]);
+
+        $cssAssets = new GlobAsset([
                 $this->srcDir.'static/css/bootstrap.css',
                 $this->srcDir.'static/css/*.css'
-            ), array($cssFilter)
-        );
+        ], [$cssFilter]);
 
         $jsAssets->setTargetPath('scripts.js');
         $cssAssets->setTargetPath('styles.css');

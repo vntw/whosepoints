@@ -9,7 +9,7 @@ class ParticipantPointsRanking extends PointsRanking
 {
     public function group()
     {
-        $pointHolders = array();
+        $pointHolders = [];
 
         foreach ($this->pointHolders as $participantPoint) {
             /* @var $participantPoint ParticipantPoints */

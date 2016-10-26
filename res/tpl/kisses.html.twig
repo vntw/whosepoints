@@ -1,6 +1,5 @@
 {% extends 'struct.html.twig' %}
 
-{% set path = '' %}
 {% set activePage = 'kisses' %}
 
 {% block content %}
@@ -12,13 +11,13 @@
     <div class="row">
         {% for epKisses in kisses %}
             <div class="col-md-4">
-                <div class="panel panel-default panel-wliia">
+                <div class="panel panel-default panel-wpata">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             {{ epKisses.episode.id }}
 
                             <div class="pull-right">
-                                <a href="{{ path }}episodes/{{ epKisses.episode.id }}.html" class="btn btn-pink btn-xs">
+                                <a href="/episodes/{{ epKisses.episode.id }}.html" class="btn btn-pink btn-xs">
                                     <span class="glyphicon glyphicon-stats"></span> Details
                                 </a>
                             </div>

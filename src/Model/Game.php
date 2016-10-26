@@ -15,7 +15,7 @@ class Game implements PointsHolderInterface
     public function __construct($name)
     {
         $this->name = $name;
-        $this->participantPoints = array();
+        $this->participantPoints = [];
     }
 
     /**

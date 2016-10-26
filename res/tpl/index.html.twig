@@ -1,6 +1,5 @@
 {% extends 'struct.html.twig' %}
 
-{% set path = '' %}
 {% set activePage = 'home' %}
 
 {% block content %}
@@ -11,12 +10,12 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            <div class="panel panel-default panel-wliia">
+            <div class="panel panel-default panel-wpata">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         Alltime ({{ seasons|length }} Seasons)
                         <div class="pull-right">
-                            <a href="{{ path }}alltime.html" class="btn btn-pink btn-xs">
+                            <a href="/alltime.html" class="btn btn-pink btn-xs">
                                 <span class="glyphicon glyphicon-stats"></span> Details
                             </a>
                         </div>
@@ -45,12 +44,12 @@
     <div class="row">
         {% for sid, season in seasons %}
             <div class="col-md-3">
-                <div class="panel panel-default panel-wliia">
+                <div class="panel panel-default panel-wpata">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                             Season {{ season.prettyId }}
                             <div class="pull-right">
-                                <a href="{{ path }}seasons/{{ season.id }}.html" class="btn btn-pink btn-xs">
+                                <a href="/seasons/{{ season.id }}.html" class="btn btn-pink btn-xs">
                                     <span class="glyphicon glyphicon-stats"></span> Details
                                 </a>
                             </div>

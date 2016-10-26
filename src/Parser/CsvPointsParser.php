@@ -23,13 +23,13 @@ class CsvPointsParser
     /**
      * @var Season[]
      */
-    private $seasons = array();
+    private $seasons = [];
     /**
      * @var Participant[]
      */
-    private $participants = array();
+    private $participants = [];
     private $participantsStartIndex = 4;
-    private $excludePointValues = array('', '-');
+    private $excludePointValues = ['', '-'];
     private $pointsFormatter;
 
     public function __construct(\SplFileInfo $csv)
@@ -106,7 +106,7 @@ class CsvPointsParser
 
     private function readWinners()
     {
-        $winners = array();
+        $winners = [];
         $winnerAliases = explode(',', $this->currentData[1]);
 
         foreach ($winnerAliases as $winner) {
@@ -131,7 +131,7 @@ class CsvPointsParser
     private function readGameParticipants()
     {
         $game = new Game($this->currentData[2]);
-        $realParticipants = '' !== $this->currentData[3] ? explode(',', $this->currentData[3]) : array();
+        $realParticipants = '' !== $this->currentData[3] ? explode(',', $this->currentData[3]) : [];
         $hasRealParticipants = !empty($realParticipants);
 
         foreach ($this->participants as $participant) {

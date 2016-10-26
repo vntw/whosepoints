@@ -14,8 +14,8 @@ class Episode
     public function __construct($id)
     {
         $this->id = $id;
-        $this->games = array();
-        $this->winners = array();
+        $this->games = [];
+        $this->winners = [];
     }
 
     /**
