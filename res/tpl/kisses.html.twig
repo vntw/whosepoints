@@ -1,6 +1,5 @@
 {% extends 'struct.html.twig' %}
 
-{% set path = '' %}
 {% set activePage = 'kisses' %}
 
 {% block content %}
@@ -18,7 +17,7 @@
                             {{ epKisses.episode.id }}
 
                             <div class="pull-right">
-                                <a href="{{ path }}episodes/{{ epKisses.episode.id }}.html" class="btn btn-pink btn-xs">
+                                <a href="/episodes/{{ epKisses.episode.id }}.html" class="btn btn-pink btn-xs">
                                     <span class="glyphicon glyphicon-stats"></span> Details
                                 </a>
                             </div>

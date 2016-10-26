@@ -3,8 +3,8 @@
         <nav id="main-nav" class="navbar navbar-default" role="navigation">
             <div class="navbar-header visible-xs">
                 <div class="main-logo text-center">
-                    <a href="{{ path }}index.html">
-                        <img src="{{ path }}static/img/wpata-logo.png" alt="Whose Points Are They Anyway?"/>
+                    <a href="/index.html">
+                        <img src="/static/img/wpata-logo.png" alt="Whose Points Are They Anyway?"/>
                     </a>
                 </div>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tgl-mn">
@@ -18,10 +18,10 @@
             <div class="collapse navbar-collapse" id="tgl-mn">
                 <ul class="nav navbar-nav">
                     <li{% if activePage == 'home' %} class="active"{% endif %}>
-                        <a href="{{ path }}index.html"><span class="glyphicon glyphicon-home"></span> Home</a>
+                        <a href="/index.html"><span class="glyphicon glyphicon-home"></span> Home</a>
                     </li>
                     <li{% if activePage == 'alltime' %} class="active"{% endif %}>
-                        <a href="{{ path }}alltime.html">
+                        <a href="/alltime.html">
                             <span class="glyphicon glyphicon-stats"></span> Alltime Stats</a>
                     </li>
                     <li class="dropdown{% if activePage == 'season' %} active{% endif %}">
@@ -31,7 +31,7 @@
                         <ul class="dropdown-menu">
                             {% for season in seasons %}
                                 <li>
-                                    <a href="{{ path }}seasons/{{ season.id }}.html">
+                                    <a href="/seasons/{{ season.id }}.html">
                                         <strong>Season {{ season.prettyId }}</strong> ({{ season.episodes|length }} Episodes)
                                     </a>
                                 </li>
@@ -39,7 +39,7 @@
                         </ul>
                     </li>
                     <li{% if activePage == 'kisses' %} class="active"{% endif %}>
-                        <a href="{{ path }}kisses.html">
+                        <a href="/kisses.html">
                             <span class="glyphicon glyphicon-heart-empty"></span> Who Kissed Who?
                         </a>
                     </li>
@@ -48,8 +48,8 @@
         </nav>
     </div>
     <div class="main-logo col-md-4 hidden-xs text-center">
-        <a href="{{ path }}index.html">
-            <img src="{{ path }}static/img/wpata-logo.png" alt="Whose Points Are They Anyway?"/>
+        <a href="/index.html">
+            <img src="/static/img/wpata-logo.png" alt="Whose Points Are They Anyway?"/>
         </a>
     </div>
 </div>
