@@ -4,9 +4,12 @@ namespace Venyii\WhosePoints;
 
 use Assetic\Asset\GlobAsset;
 use Assetic\AssetWriter;
-use Assetic\Filter\Yui\CssCompressorFilter;
-use Assetic\Filter\Yui\JsCompressorFilter;
+use Assetic\Filter\UglifyCssFilter;
+use Assetic\Filter\UglifyJs3Filter;
+use InvalidArgumentException;
 use Symfony\Component\Finder\Finder;
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
 use Venyii\WhosePoints\Parser\CsvKissesParser;
 use Venyii\WhosePoints\Parser\CsvPointsParser;
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,8 +24,12 @@ class LocalStaticGenerator
     public function __construct($destDir)
     {
         $this->srcDir = __DIR__.'/../res/tpl/';
-        $this->destDir = rtrim($destDir, '/').'/';
+        $this->destDir = __DIR__.'/../'.trim($destDir, '/').'/';
         $this->fs = new Filesystem();
+
+        if (!$this->fs->exists($this->destDir)) {
+            throw new InvalidArgumentException('Destination directory "'.$this->destDir.'" does not exist');
+        }
     }
 
     public function generate()
@@ -62,8 +69,8 @@ class LocalStaticGenerator
 
     private function createTwig()
     {
-        $loader = new \Twig_Loader_Filesystem(__DIR__.'/../res/tpl');
-        $twig = new \Twig_Environment($loader, [
+        $loader = new FilesystemLoader(__DIR__.'/../res/tpl');
+        $twig = new Environment($loader, [
             'debug' => true,
             'strict_variables' => true
         ]);
@@ -95,7 +102,6 @@ class LocalStaticGenerator
             ->files()
             ->in($this->srcDir);
 
-
         foreach ($finder as $file) {
             $this->fs->copy($file->getRealPath(), $this->destDir.$file->getRelativePathname());
         }
@@ -103,10 +109,8 @@ class LocalStaticGenerator
 
     private function minifyStatics()
     {
-        $yuiPath = __DIR__.'/../res/compressor/yuicompressor-2.4.8.jar';
-
-        $jsFilter = new JsCompressorFilter($yuiPath);
-        $cssFilter = new CssCompressorFilter($yuiPath);
+        $jsFilter = new UglifyJs3Filter(__DIR__.'/../node_modules/uglify-js/bin/uglifyjs');
+        $cssFilter = new UglifyCssFilter(__DIR__.'/../node_modules/uglifycss/uglifycss');
 
         $jsAssets = new GlobAsset([
             $this->srcDir.'static/js/vendor/jquery-2.1.0.js',
@@ -122,7 +126,7 @@ class LocalStaticGenerator
         $jsAssets->setTargetPath('scripts.js');
         $cssAssets->setTargetPath('styles.css');
 
-        $writer = new AssetWriter(__DIR__.'/../out/static/min');
+        $writer = new AssetWriter($this->destDir.'/static/min');
         $writer->writeAsset($cssAssets);
         $writer->writeAsset($jsAssets);
     }

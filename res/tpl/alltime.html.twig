@@ -45,9 +45,12 @@
                 </div>
                 <div class="panel-body single-value">
                     <span data-toggle="tooltip" title="Unique Games">
-                        {{ stats.allSeasonsGameCounts.grouped }}
-                    </span>/
-                    <span data-toggle="tooltip" title="Games Played">{{ stats.allSeasonsGameCounts.total }}</span>
+                        {{ stats.allSeasonsGameCounts.grouped }}<sup class="what-sup">unique</sup>
+                    </span>
+                    <span class="divider">/</span>
+                    <span data-toggle="tooltip" title="Games Played">
+                        {{ stats.allSeasonsGameCounts.total }}<sup class="what-sup">total</sup>
+                    </span>
                 </div>
             </div>
         </div>

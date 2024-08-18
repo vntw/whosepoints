@@ -2,11 +2,13 @@
 
 namespace Venyii\WhosePoints;
 
+use Twig\Environment;
+
 class LocalHtmlRenderer
 {
-    private $engine;
+    private Environment $engine;
 
-    public function __construct(\Twig_Environment $engine)
+    public function __construct(Environment $engine)
     {
         $this->engine = $engine;
     }
