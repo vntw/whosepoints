@@ -28,7 +28,12 @@
                         <li>{{ stats.alltimePoints|number_format }} Points</li>
                         <li class="divider hidden-xs">|</li>
                         <li>
-                            <span data-toggle="tooltip" title="Unique Games">{{ stats.allSeasonsGameCounts.grouped }}</span>/<span data-toggle="tooltip" title="Games Played">{{ stats.allSeasonsGameCounts.total }}</span>
+                            <span data-toggle="tooltip" title="Unique Games">
+                                {{ stats.allSeasonsGameCounts.grouped }}<sup class="what-sup">unique</sup>
+                            </span>
+                            <span data-toggle="tooltip" title="Games Played">
+                                {{ stats.allSeasonsGameCounts.total }}<sup class="what-sup">total</sup>
+                            </span>
                             Games
                         </li>
                     </ul>

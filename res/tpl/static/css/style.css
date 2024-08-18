@@ -16,6 +16,10 @@ div.main-logo {
     padding-top: 10px;
 }
 
+div.main-logo a {
+    display: block;
+}
+
 div.main-logo img {
     width: 300px;
 }
@@ -134,7 +138,7 @@ footer a {
     list-style-type: square;
 }
 
-.panel-body.alltime .divider {
+.divider {
     color: #ccc;
 }
 
@@ -197,6 +201,12 @@ footer a {
 .navbar-default {
     background-color: transparent;
     border: 0;
+}
+
+.what-sup {
+    top: -0.75em;
+    font-size: 12px;
+    padding-left: 3px;
 }
 
 h1, .h1, h2, .h2, h3, .h3 {
